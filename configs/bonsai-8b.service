@@ -1,0 +1,27 @@
+[Unit]
+Description=Bonsai 8B LLM Server on Radeon 555X (Vulkan)
+After=network.target
+
+[Service]
+Type=simple
+Environment="LD_LIBRARY_PATH=%h/Projects/Bonsai-8B-MacBookPro-2019-Radeon-555X-Omarchy/bin/vulkan"
+Environment="LLAMA_ATTN_ROT_DISABLE=1"
+ExecStart=%h/Projects/Bonsai-8B-MacBookPro-2019-Radeon-555X-Omarchy/bin/vulkan/llama-server \
+  -m %h/Projects/Bonsai-8B-MacBookPro-2019-Radeon-555X-Omarchy/models/Bonsai-8B-Q1_0.gguf \
+  --device Vulkan0 \
+  -ngl 99 \
+  -fa on \
+  -c 32768 \
+  --cache-type-k q4_0 \
+  --cache-type-v q4_0 \
+  --kv-mean-center %h/Projects/Bonsai-8B-MacBookPro-2019-Radeon-555X-Omarchy/models/Bonsai-8B-kv-bias.gguf \
+  --host 127.0.0.1 \
+  --port 8080 \
+  --temp 0.5 --top-p 0.85 --top-k 20 --min-p 0 \
+  --reasoning-budget 0 --reasoning-format none \
+  --chat-template-kwargs '{"enable_thinking": false}'
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

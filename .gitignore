@@ -1,0 +1,7 @@
+# Git ignore for Bonsai 8B deployment
+models/*.gguf
+bin/
+.venv/
+*.log
+__pycache__/
+.DS_Store
